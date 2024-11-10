@@ -5,7 +5,7 @@ import telebot
 import os
 import random
 
-API_TOKEN = 'не покажу токен'
+API_TOKEN = 'token'
 bot = telebot.TeleBot(API_TOKEN)
 
 @bot.message_handler(commands=['start'])
@@ -78,18 +78,27 @@ def send_animals_mem(message):
     with open(animmeme_path, 'rb') as f:  # открываем файл
         bot.send_photo(message.chat.id, f)  # отправляем файл
 
-
+@bot.message_handler(commands=['recyclingadvice'])
+def send_recycle_tip(message):
+    tips = [
+        "Пластик отправляйте в контейнер для переработки только чистым.",
+        "Стекло можно переработать, но его важно не разбивать перед сдачей.",
+        "Используйте многоразовые сумки, чтобы снизить потребление пластика.",
+        "Старайтесь выбирать товары без излишней упаковки."
+    ]
+    bot.reply_to(message, random.choice(tips))
 
 @bot.message_handler(commands=["help"])
 def helpus(message):
     bot.reply_to(
         message,
-        "/set - ставит таймер\n"
         "/start - выдаёт приветствие\n"
+        "/set - ставит таймер\n"
         "/unset - удаляет таймер\n"
         "/ping - проверяет текущий пинг\n"
         "/mem - отправляет мем\n"
         "/animals - отправляет мем про животных\n"
+        "/recyclingadvice - получить совет по переработке мусора\n"
         "/help - выдаёт данное сообщение"
     )
 
